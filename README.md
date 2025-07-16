@@ -77,3 +77,44 @@ git add .
 git commit -m "Instalación inicial de Laravel"
 git push -u origin master
 ```
+---
+
+## 8. Clonar el proyecto en otra máquina
+
+```bash
+git clone ssh://git@ssh.github.com:443/PabloDev96/acortador-url.git
+cd acortador-url
+```
+
+## 9. Instalar dependencias y levantar el proyecto localmente
+
+### Instalar dependencias PHP
+```bash
+composer install
+```
+
+### Copiar y configurar el archivo .env
+```bash
+cp .env.example .env
+```
+
+Editar `.env` con tu configuración local de base de datos, etc.
+
+### Generar la clave de la aplicación
+```bash
+php artisan key:generate
+```
+
+### Ejecutar migraciones (si aplica)
+```bash
+php artisan migrate
+```
+
+### Levantar el servidor de desarrollo
+```bash
+php artisan serve
+```
+
+El proyecto estará disponible en: [http://localhost:8000](http://localhost:8000)
+
+---

@@ -36,7 +36,7 @@
 
         label {
             display: block;
-            font-size: 25px;
+            font-size: 20px;
             margin-bottom: 15px;
             font-weight: bold;
             color: #14366F;
@@ -46,6 +46,7 @@
             width: 100%;
             padding: 12px 16px;
             border: 1px solid #ccc;
+            background-color: rgba(67,157,162,0.4);
             border-radius: 8px;
             font-size: 20px;
             box-sizing: border-box;
@@ -92,7 +93,7 @@
 
         .short-url {
             margin-top: 20px;
-            font-size: 25px;
+            font-size: 20px;
         }
 
         .short-url a {
@@ -109,6 +110,7 @@
         }
 
         .short-url img {
+            padding-top: 8px;
             vertical-align: middle;
         }
 
@@ -151,7 +153,7 @@
                     </a>
                     <button onclick="copyUrl()" title="Copiar al portapapeles"
                         style="border: none; background: none; cursor: pointer;">
-                        <img src="{{ asset('clon.png') }}" alt="Copiar" width="20" style="vertical-align: middle;">
+                        <img src="{{ asset('clon.png') }}" alt="Copiar" width="30" style="vertical-align: middle;">
                     </button>
                 </p>
                 <small id="copyMessage" style="color: green; display: none;">¡Copiada!</small>

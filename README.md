@@ -24,8 +24,8 @@ Este es un acortador de URLs construido con Laravel. Permite introducir una URL 
 
 ## 🧰 Tecnologías utilizadas
 
-- PHP 8.2
-- Laravel 11
+- PHP 8.2.12
+- Laravel 12.20.0
 - PostgreSQL
 - Apache
 - Docker

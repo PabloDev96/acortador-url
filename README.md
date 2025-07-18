@@ -16,7 +16,7 @@ Este es un acortador de URLs construido con Laravel. Permite introducir una URL 
 2. Laravel genera un código aleatorio (6 caracteres) y lo guarda en la base de datos con la URL original.
 3. El sistema responde con un enlace acortado como:
    ```
-   https://acortador-url-18kt.onrender.com/Ab12Cd
+   http://acortador-url-18kt.onrender.com/gR8H6V
    ```
 4. Al acceder a ese enlace, Laravel redirige automáticamente a la URL original y registra la visita.
 
@@ -24,8 +24,8 @@ Este es un acortador de URLs construido con Laravel. Permite introducir una URL 
 
 ## 🧰 Tecnologías utilizadas
 
-- PHP 8.2
-- Laravel 11
+- PHP 8.2.12
+- Laravel 12.20.0
 - PostgreSQL
 - Apache
 - Docker
@@ -49,6 +49,89 @@ public/
  └── clon.png (ícono copiar)
  └── tijeras.png (ícono tijera)
 ```
+
+---
+
+## 🧠 Explicación técnica del funcionamiento
+
+### 1. `routes/web.php` – Definición de rutas
+
+```php
+Route::get('/', function () {
+    return view('acortador');
+});
+```
+Esta ruta devuelve la vista con el formulario principal.
+
+```php
+Route::post('/shorten', [UrlController::class, 'store']);
+```
+Envía el formulario a un controlador que procesa y guarda la URL.
+
+```php
+Route::get('/{code}', [UrlController::class, 'redirect']);
+```
+Captura cualquier código corto y lo usa para redireccionar a la URL original.
+
+---
+
+### 2. `app/Http/Controllers/UrlController.php` – Lógica del acortador
+
+#### store(Request $request)
+
+- Valida que la URL sea válida.
+- Genera un código corto aleatorio de 6 caracteres con `Str::random(6)`.
+- Verifica que ese código no exista ya en la base de datos.
+- Guarda la URL original junto con el código generado.
+- Devuelve al usuario una vista con la URL acortada.
+
+#### redirect($code)
+
+- Busca la URL por el `short_code` en la base de datos.
+- Si la encuentra, incrementa el contador `visits`.
+- Redirige al navegador a la `original_url`.
+
+---
+
+### 3. `app/Models/Url.php` – Modelo Eloquent
+
+```php
+protected $fillable = ['original_url', 'short_code'];
+```
+Define los campos que pueden ser asignados de forma masiva.
+
+---
+
+### 4. `resources/views/acortador.blade.php` – Vista del formulario
+
+- Muestra el formulario para introducir la URL original.
+- Si hay una URL acortada, la muestra con botón de copiar.
+- Si hay errores de validación, los lista.
+- Tiene estilos personalizados y animaciones (hover, iconos, etc).
+
+---
+
+### 5. `database/migrations/create_urls_table.php` – Estructura de la tabla
+
+```php
+$table->string('original_url');
+$table->string('short_code')->unique();
+$table->unsignedBigInteger('visits')->default(0);
+```
+
+Crea una tabla con tres columnas:
+- `original_url`: URL original.
+- `short_code`: Código corto generado.
+- `visits`: número de veces que se ha accedido.
+
+---
+
+### 6. `.env` – Variables de entorno
+
+Contiene la configuración sensible del entorno:
+- Conexión a la base de datos (host, usuario, contraseña, puerto).
+- Clave de aplicación (`APP_KEY`).
+- Entorno (`APP_ENV`), depuración (`APP_DEBUG`) y URL base (`APP_URL`).
 
 ---
 
